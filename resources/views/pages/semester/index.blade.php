@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <div class="d-flex justify-content-end">
+                            <div class="justify-content-between">
                                 {{ $semesters->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
