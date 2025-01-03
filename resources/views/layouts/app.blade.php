@@ -300,8 +300,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="components-badges.html">
-                            <i class="bi bi-circle"></i><span>Badges</span>
+                        <a href="{{route('pejabat.index')}}">
+                            <i class="bi bi-circle"></i><span>Pejabat Stikes</span>
                         </a>
                     </li>
                     <li>
@@ -458,9 +458,9 @@
             <li class="nav-heading">Pages</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="users-profile.html">
+                <a class="nav-link collapsed" href="{{route('setting.index')}}">
                     <i class="bi bi-person"></i>
-                    <span>Profile</span>
+                    <span>Setting</span>
                 </a>
             </li><!-- End Profile Page Nav -->
 
