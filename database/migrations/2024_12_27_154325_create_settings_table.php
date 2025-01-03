@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('no_telp');
             $table->string('nama_yayasan');
             $table->string('nama_kampus');
-            $table->string('logo_yayasan');
-            $table->string('logo_kampus');
+            $table->string('logo_kampus')->nullable();
             $table->timestamps();
         });
     }

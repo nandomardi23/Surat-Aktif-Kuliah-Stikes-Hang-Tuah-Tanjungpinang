@@ -13,7 +13,6 @@ class Setting extends Model
         'no_telp',
         'nama_yayasan',
         'nama_kampus',
-        'logo_yayasan',
         'logo_kampus'
     ];
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
@@ -13,12 +14,12 @@ class SettingController extends Controller
      */
     public function index()
     {
-       $settings = Setting::first();
-        return view('pages.settings.index',compact('settings'));
+        $settings = Setting::first();
+        return view('pages.settings.index', compact('settings'));
     }
 
     /**
-     * 
+     *
      * Show the form for creating a new resource.
      */
     public function create()
@@ -32,40 +33,30 @@ class SettingController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-         $request->validate([
-            'logo_yayasan'=>'image|required|max:512',
-            'logo_kampus'=>'image|required|max:512',
-            'nama_yayasan'=>'required|min:4|max:50',
-            'nama_kampus'=>'required|min:4|max:50',
-            'no_telp'=>'required|numeric|',
-            'alamat_kampus'=>'required|max:100'
+        $request->validate([
+            'logo_kampus' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nama_yayasan' => 'required|min:4|max:50',
+            'nama_kampus' => 'required|min:4|max:50',
+            'no_telp' => 'required|numeric|',
+            'alamat_kampus' => 'required|max:100'
         ]);
-       
-        $nama_yayasan = $request->input('nama_yayasan');
-        $nama_kampus = $request->input('nama_kampus');
 
-        if($request->hasFile('logo_yayasan')) {
-           $logo_yayasan = $request->file('logo_yayasan');
-           $filaName1 = $nama_yayasan . '.' . $logo_yayasan->getClientOriginalExtension();
-           $path_logo_yayasan = $logo_yayasan->storeAs('logo',$filaName1, 'public');
 
-        }
-        if($request->hasFile('logo_kampus')){
-            $logo_kampus = $request->file('logo_kampus');
-            $filaName2 = $nama_kampus . '.' . $logo_kampus->getClientOriginalExtension();
-            $path_logo_kampus = $logo_kampus->storeAs('logo', $filaName2, 'public');
-        }
+        $folderName = Str::slug($request->nama_kampus, '_'); // Mengganti spasi dengan underscore
+        $folderPath = 'logo/' . $folderName;
+
+        // Simpan gambar ke storage dengan folder sesuai nama_kampus
+        $logoPath = $request->file('logo_kampus')->store($folderPath, 'public');
 
         Setting::create([
             'alamat_kampus' => $request->alamat_kampus,
             'no_telp' => $request->no_telp,
             'nama_yayasan' => $request->nama_yayasan,
             'nama_kampus' => $request->nama_kampus,
-            'logo_yayasan' => $path_logo_yayasan,
-            'logo_kampus' => $path_logo_kampus,
+            'logo_kampus' => $logoPath,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Data berhasil Ditambahkan');
     }
 
     /**
@@ -90,17 +81,39 @@ class SettingController extends Controller
     public function update(Request $request, Setting $setting)
     {
         $request->validate([
-            'logo_yayasan'=>'image|required|size:512',
-            'logo_kampus'=>'image|required|size:512',
-            'nama_yayasan'=>'required|min:4|max:50',
-            'nama_kampus'=>'required|min:4|max:50',
-            'no_telp'=>'required|numeric|min:6',
-            'alamat_kampus'=>'required|max:255'
+            'alamat_kampus' => 'required|string',
+            'no_telp' => 'required|string',
+            'nama_yayasan' => 'required|string',
+            'nama_kampus' => 'required|string',
+            'logo_kampus' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-       
-        $setting = Setting::firtsOrCreate([
 
-        ]);
+        $setting = Setting::first();
+        if ($request->hasFile('logo_kampus')) {
+            // Hapus gambar lama jika ada
+            if ($setting->logo_kampus && Storage::disk('public')->exists($setting->logo_kampus)) {
+                Storage::disk('public')->delete($setting->logo_kampus);
+            }
+
+            // Bersihkan nama_kampus untuk digunakan sebagai nama folder
+            $folderName = Str::slug($request->nama_kampus, '_'); // Mengganti spasi dengan underscore
+            $folderPath = 'kampus/' . $folderName;
+
+            // Simpan gambar baru dengan folder sesuai nama_kampus
+            $logoPath = $request->file('logo_kampus')->store($folderPath, 'public');
+            $setting->logo_kampus = $logoPath;
+        }
+
+        // Update data lainnya
+        $setting->alamat_kampus = $request->alamat_kampus;
+        $setting->no_telp = $request->no_telp;
+        $setting->nama_yayasan = $request->nama_yayasan;
+        $setting->nama_kampus = $request->nama_kampus;
+
+        // Simpan perubahan
+        $setting->save();
+
+        return redirect()->route('setting.index')->with('success', 'Data kampus berhasil diperbarui!');
     }
 
     /**
