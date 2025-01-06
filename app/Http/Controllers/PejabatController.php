@@ -33,7 +33,7 @@ class PejabatController extends Controller
         $request->validate([
             'nik' => 'required|numeric|unique:pejabats,nik,',
             'nama_pejabat' => 'required|',
-            'jabatan' => 'required|unique:pejabats,jabatan,'
+            'jabatan' => 'required|unique:pejabats,jabatan'
         ]);
 
         Pejabat::create($request->all());
@@ -54,6 +54,7 @@ class PejabatController extends Controller
      */
     public function edit(Pejabat $pejabat)
     {
+        // dd($pejabat);
         return view('pages.pejabat.edit', compact('pejabat'));
     }
 
@@ -62,7 +63,16 @@ class PejabatController extends Controller
      */
     public function update(Request $request, Pejabat $pejabat)
     {
-        //
+        // dd($pejabat);
+        $request->validate([
+            'nik' => 'required|numeric',
+            'nama_pejabat' => 'required',
+            'jabatan' => 'required'
+        ]);
+
+        $pejabat->update($request->all());
+
+        return redirect()->route('pejabat.index')->with('success', 'Data berhasil Di Update!!!');
     }
 
     /**
@@ -70,6 +80,7 @@ class PejabatController extends Controller
      */
     public function destroy(Pejabat $pejabat)
     {
-        //
+        $pejabat->delete();
+        return redirect()->route('pejabat.index')->with('success', 'Data Berhasil Dihapuskan');
     }
 }

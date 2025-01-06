@@ -22,12 +22,14 @@
                 </div>
             </div>
         </div>
-        <form action="{{route('pejabat.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('pejabat.update',$pejabat)}}" method="POST" enctype="multipart/form-data">
+            @method('PUT')
             @csrf
             <div class="card-body">
                 <div class="form-group">
                     <label for="nik" class="form-label">Masukan NIK Pegawaian:</label>
-                    <input type="text" name="nik" class=" form-control @error('nik') is-invalid @enderror">
+                    <input type="text" name="nik" class=" form-control @error('nik') is-invalid @enderror"
+                        value="{{$pejabat->nik}}">
                     @error('nik')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -36,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <label for="nama_pejabat" class="form-label">Masukan Nama Pejabat Berseta Gelar:</label>
-                    <input type="text" name="nama_pejabat"
+                    <input type="text" name="nama_pejabat" value="{{$pejabat->nama_pejabat}}"
                         class=" form-control @error('nama_pejabat') is-invalid @enderror">
                     @error('nama_pejabat')
                     <div class="invalid-feedback">
@@ -46,7 +48,8 @@
                 </div>
                 <div class="form-group">
                     <label for="jabatan" class="form-label">Masukan Jabatan:</label>
-                    <input type="text" name="jabatan" class=" form-control @error('jabatan') is-invalid @enderror">
+                    <input type="text" name="jabatan" value="{{$pejabat->jabatan}}"
+                        class=" form-control @error('jabatan') is-invalid @enderror">
                     @error('jabatan')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -55,7 +58,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan Data</button>
+                <button type="submit" class="btn btn-primary">Update Data</button>
             </div>
         </form>
     </div>
