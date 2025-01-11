@@ -305,13 +305,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="components-breadcrumbs.html">
-                            <i class="bi bi-circle"></i><span>Breadcrumbs</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components-buttons.html">
-                            <i class="bi bi-circle"></i><span>Buttons</span>
+                        <a href="{{route('isi_surat.index')}}">
+                            <i class="bi bi-circle"></i><span>Badan Surat</span>
                         </a>
                     </li>
                     <li>
