@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\FormSuratContoller;
 use App\Http\Controllers\IsiSuratController;
 use App\Http\Controllers\PejabatController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SuratController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +23,11 @@ Route::resource('/programstudi', ProdiController::class);
 Route::resource('/setting', SettingController::class);
 Route::resource('/pejabat', PejabatController::class);
 route::resource('/isi_surat', IsiSuratController::class);
+route::resource('/surat', SuratController::class);
+
+
+
+Route::resource('/pengajuan_surat', FormSuratContoller::class);
 
 
 Route::get('/mahasiswa', function () {

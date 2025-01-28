@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Prodi extends Model
 {
@@ -11,4 +12,9 @@ class Prodi extends Model
     protected $fillable = [
         'namaProdi'
     ];
+
+    public function Student(): BelongsTo
+    {
+        return $this->belongsTo(Students::class);
+    }
 }
