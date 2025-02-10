@@ -83,101 +83,193 @@
     </div>
 </div>
 
+<!-- Modal Detail -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detail Surat Aktif Kuliah</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Nomor Surat</dt>
+                            <dd class="col-sm-8" id="detail_nomor_surat"></dd>
+
+                            <dt class="col-sm-4">Nama Mahasiswa</dt>
+                            <dd class="col-sm-8" id="detail_nama_mahasiswa"></dd>
+
+                            <dt class="col-sm-4">NIM</dt>
+                            <dd class="col-sm-8" id="detail_nim"></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Program Studi</dt>
+                            <dd class="col-sm-8" id="detail_prodi"></dd>
+
+                            <dt class="col-sm-4">Semester</dt>
+                            <dd class="col-sm-8" id="detail_semester"></dd>
+
+                            <dt class="col-sm-4">Pejabat</dt>
+                            <dd class="col-sm-8" id="detail_pejabat"></dd>
+
+                            <dt class="col-sm-4">Status</dt>
+                            <dd class="col-sm-8" id="detail_status"></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $(document).ready(function() {
-        $('#table_surat_aktif').DataTable({
+    // crsf token
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+    // Inisialisasi DataTable
+        var table = $('#table_surat_aktif').DataTable({
             processing: true,
             serverSide: true,
-            searching: true,
             ajax: "{{ route('surat.index') }}",
             columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                { data: 'nomor_surat', name: 'nomor_surat', searchable: true },
-                { data: 'student.nama_mahasiswa', name: 'nama_mahasiswa', searchable: true },
-                { data: 'student.nim', name: 'nim' },
-                { data: 'pejabat.nama_pejabat', name: 'pejabat' },
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'nomor_surat', name: 'nomor_surat' },
+                { data: 'student.nama_mahasiswa', name: 'student.nama_mahasiswa' },
+                { data: 'student.nim', name: 'student.nim' },
+                { data: 'pejabat.nama_pejabat', name: 'pejabat.nama_pejabat' },
                 { data: 'status.nama_status', name: 'status.nama_status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
 
-        // Event untuk menampilkan modal edit
-        $('body').on('click', '.edit-btn', function() {
-            let id = $(this).data('id');
+        // Handle Edit
+        $(document).on('click', '.edit-btn', function() {
+            const id = $(this).data('id');
 
-        $.get(`/surat/${id}/edit`, function(data) {
-            $('#edit_id').val(data.id);
-            $('#edit_nomor_surat').val(data.nomor_surat);
-            $('#edit_status_id').val(data.status_id);
-            $('#edit_pejabat_id').val(data.pejabat_id);
-            $('#editModal').modal('show');
+            $.get(`/surat/${id}/edit`, function(data) {
+                $('#edit_id').val(data.id);
+                $('#edit_nomor_surat').val(data.nomor_surat);
+                $('#edit_status_id').val(data.status_id).trigger('change');
+                $('#edit_pejabat_id').val(data.pejabat_id).trigger('change');
+                $('#editModal').modal('show');
             });
         });
 
+        // Handle Update
         $('#saveEdit').click(function(e) {
             e.preventDefault();
-            const suratId = $('#edit_id').val();
+            const id = $('#edit_id').val();
+
             $.ajax({
-                url: `/surat/${suratId}`,
+                url: `/surat/${id}`,
                 method: 'PUT',
+                headers: {
+                'X-CSRF-TOKEN': csrfToken // Tambahkan CSRF token di header
+                },
                 data: {
-                nomor_surat: $('#edit_nomor_surat').val(),
-                status_id: $('#edit_status_id').val(),
-                pejabat_id: $('#edit_pejabat_id').val()
-            },
-            success: function(response) {
-            // Reset error
-                $('#editForm .invalid-feedback').text('').hide();
-                $('#editForm input, #editForm select').removeClass('is-invalid');
-
-            // Feedback sukses
-                $('#editModal').modal('hide');
-                $('#table_surat_aktif').DataTable().ajax.reload();
-            Swal.fire('Sukses!', response.success, 'success');
-            },
-            error: function(xhr) {
-            // Reset error
-                $('#editForm .invalid-feedback').text('').hide();
-                $('#editForm input, #editForm select').removeClass('is-invalid');
-
-            if (xhr.status === 422) {
-            // Tampilkan error validasi per field
-                const errors = xhr.responseJSON.errors;
-                for (const field in errors) {
-                    $(`#error_${field}`).text(errors[field][0]).show();
-                    $(`#edit_${field}`).addClass('is-invalid');
+                    nomor_surat: $('#edit_nomor_surat').val(),
+                    status_id: $('#edit_status_id').val(),
+                    pejabat_id: $('#edit_pejabat_id').val()
+                },
+                success: function(response) {
+                    $('#editModal').modal('hide');
+                    table.ajax.reload(null, false); // Reload tanpa reset pagination
+                    Swal.fire('Sukses!', response.success, 'success');
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        handleValidationErrors(xhr.responseJSON.errors);
+                    } else {
+                        showGeneralError(xhr);
+                    }
                 }
-            } else {
-            // Handle error umum dengan SweetAlert
-            let errorMessage = 'Terjadi kesalahan. Silakan coba lagi.';
+            });
+        });
 
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                errorMessage = xhr.responseJSON.message;
-            } else if (xhr.status === 0) {
-                errorMessage = 'Tidak bisa terhubung ke server.';
-            }
+        // Handle Detail
+        $(document).on('click', '.detail-btn', function() {
+            const id = $(this).data('id');
+
+            $.ajax({
+                url: `/surat/${id}`,
+                method: 'GET',
+                headers: {
+                'X-CSRF-TOKEN': csrfToken // Tambahkan CSRF token di header
+                },
+                success: function(response) {
+                    populateDetailModal(response);
+                    $('#detailModal').modal('show');
+                },
+                error: function() {
+                    Swal.fire('Error!', 'Gagal memuat detail', 'error');
+                }
+            });
+        });
+
+        // Handle Delete
+        $(document).on('click', '.delete-btn', function() {
+            const id = $(this).data('id');
 
             Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: errorMessage,
+                title: 'Hapus Data?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/surat/${id}`,
+                        method: 'DELETE',
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken // Tambahkan CSRF token di header
+                        },
+                        success: function(response) {
+                            table.ajax.reload(null, false);
+                            Swal.fire('Terhapus!', response.success, 'success');
+                        }
+                    });
+                }
             });
+        });
+
+        // Fungsi Bantuan
+        function handleValidationErrors(errors) {
+            $('.is-invalid').removeClass('is-invalid');
+            $('.invalid-feedback').text('');
+
+            for (const field in errors) {
+                $(`#edit_${field}`).addClass('is-invalid');
+                $(`#error_${field}`).text(errors[field][0]);
             }
         }
-    });
-});
 
+        function showGeneralError(xhr) {
+            let message = 'Terjadi kesalahan pada server';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                message = xhr.responseJSON.message;
+            }
+            $('#error_general').removeClass('d-none').text(message);
+        }
 
-});
-
+        function populateDetailModal(data) {
+            $('#detail_nomor_surat').text(data.nomor_surat);
+            $('#detail_nama_mahasiswa').text(data.nama_mahasiswa);
+            $('#detail_nim').text(data.nim);
+            $('#detail_prodi').text(data.prodi);
+            $('#detail_semester').text(data.semester);
+            $('#detail_pejabat').text(data.pejabat);
+            $('#detail_status').text(data.status);
+        }
 </script>
 @endpush
-
 @endsection

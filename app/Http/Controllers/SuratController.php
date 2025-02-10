@@ -9,7 +9,7 @@ use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Yajra\DataTables\DataTables;
-use Illuminate\Http\Exceptions\HttpResponseException;
+// use Illuminate\Http\Exceptions\HttpResponseException;
 
 class SuratController extends Controller
 {
@@ -62,7 +62,25 @@ class SuratController extends Controller
      */
     public function show(Surat $surat)
     {
-        //
+
+        // Load relasi yang diperlukan
+        $surat->load([
+            'student',
+            'student.prodi',
+            'student.semester',
+            'pejabat',
+            'status'
+        ]);
+
+        return response()->json([
+            'nomor_surat' => $surat->nomor_surat,
+            'nama_mahasiswa' => $surat->student->nama_mahasiswa,
+            'nim' => $surat->student->nim,
+            'prodi' => $surat->student->prodi->namaProdi ?? '-',
+            'semester' => $surat->student->semester->semesterRomawi ?? '-',
+            'pejabat' => $surat->pejabat->nama_pejabat,
+            'status' => $surat->status->nama_status
+        ]);
     }
 
     /**
@@ -105,6 +123,7 @@ class SuratController extends Controller
      */
     public function destroy(Surat $surat)
     {
-        //
+        $surat->delete();
+        return response()->json(['success' => 'Surat berhasil dihapus!']);
     }
 }
