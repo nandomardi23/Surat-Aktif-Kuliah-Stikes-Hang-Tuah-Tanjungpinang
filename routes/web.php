@@ -9,6 +9,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\FormSuratContoller;
 use App\Http\Controllers\IsiSuratController;
 use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('layouts.app');
@@ -25,7 +26,7 @@ Route::resource('/setting', SettingController::class);
 Route::resource('/pejabat', PejabatController::class);
 route::resource('/isi_surat', IsiSuratController::class);
 route::resource('/surat', SuratController::class);
-
+route::resource('/user', UserController::class);
 
 
 Route::resource('/pengajuan_surat', FormSuratContoller::class);

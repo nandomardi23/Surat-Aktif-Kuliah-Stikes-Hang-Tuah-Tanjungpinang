@@ -69,7 +69,6 @@ class SemesterController extends Controller
      */
     public function destroy(Semester $semester)
     {
-        // dd($semester);
         $semester->delete();
         return redirect()->back()->with('success', 'Data Berhasil dihapus!!');
     }
