@@ -27,7 +27,7 @@ Route::resource('/pejabat', PejabatController::class);
 route::resource('/isi_surat', IsiSuratController::class);
 route::resource('/surat', SuratController::class);
 route::resource('/user', UserController::class);
-
+Route::post('/user/reset-password/{user}', [UserController::class, 'resetPassword'])->name('user.reset-password');
 
 Route::resource('/pengajuan_surat', FormSuratContoller::class);
 

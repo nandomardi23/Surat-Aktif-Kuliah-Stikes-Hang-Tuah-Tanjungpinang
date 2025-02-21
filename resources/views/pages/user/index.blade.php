@@ -55,24 +55,28 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <td>No</td>
+                            <td class="text-center">No</td>
                             <td>Nama</td>
                             <td>Email</td>
-                            <td>Aksi</td>
+                            <td class="text-center">Aksi</td>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($users as $user)
                         <tr>
-                            <td>{{$loop->iteration}}</td>
+                            <td class="text-center">{{$loop->iteration}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
-                            <td>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#resetPasswordModal"
+                                    onclick="setResetPasswordFormAction('{{ route('user.reset-password', $user->id) }}')">
+                                    Reset Password
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#hapusModal" data-id="{{ $user }}">
                                     Hapus
                                 </button>
-                                {{-- <form action="{{route('user.destroy')}}"></form> --}}
                             </td>
                         </tr>
                         @empty
@@ -86,7 +90,7 @@
         </div>
         <div class="card-footer">
             <div class="justify-content-between">
-                {{ $users->links('pagination::bootstrap-5') }}
+                {{ $users->onEachSide(5)->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
@@ -116,5 +120,38 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Reset Password -->
+    <div class="modal fade" id="resetPasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resetPasswordModalLabel">Konfirmasi Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin mereset password pengguna ini?
+                </div>
+                <div class="modal-footer">
+                    <form id="resetPasswordForm" method="POST">
+                        @csrf
+                        @method('POST')
+                        <button type="submit" class="btn btn-warning">Ya, Reset</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </section>
+@push('scripts')
+<script>
+    function setResetPasswordFormAction(action) {
+            document.getElementById('resetPasswordForm').action = action;
+        }
+</script>
+@endpush
 @endsection

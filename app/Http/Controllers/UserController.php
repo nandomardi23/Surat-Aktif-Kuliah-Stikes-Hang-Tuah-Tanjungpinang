@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -30,8 +31,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email|email'
@@ -79,5 +78,17 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->back()->with('success', 'Data User Berhasil Dihapus!!!');
+    }
+
+    public function resetPassword(Request $request, User $user)
+    {
+
+        // Set password baru sama dengan email user
+        $newPassword = $user->email; // Password baru = email user
+        $user->password = Hash::make($newPassword);
+        $user->save();
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('user.index')->with('success', 'Password berhasil direset. Password baru sama dengan email user.');
     }
 }
