@@ -8,30 +8,31 @@ use App\Http\Controllers\PejabatController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\FormSuratContoller;
 use App\Http\Controllers\IsiSuratController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\UserController;
 
-Route::get('/', function () {
-    return view('layouts.app');
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('pages.dashboard.index');
+    });
+    Route::resource('/semester', SemesterController::class);
+    Route::resource('/programstudi', ProdiController::class);
+    Route::resource('/setting', SettingController::class);
+    Route::resource('/pejabat', PejabatController::class);
+    Route::resource('/isi_surat', IsiSuratController::class);
+    Route::resource('/surat', SuratController::class);
+    Route::resource('/user', UserController::class);
+    Route::post('/user/reset-password/{user}', [UserController::class, 'resetPassword'])->name('user.reset-password');
+    Route::resource('/profile', ProfileController::class);
 });
 
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard.index');
-});
-
-Route::resource('/semester', SemesterController::class);
-Route::resource('/programstudi', ProdiController::class);
-Route::resource('/setting', SettingController::class);
-Route::resource('/pejabat', PejabatController::class);
-route::resource('/isi_surat', IsiSuratController::class);
-route::resource('/surat', SuratController::class);
-route::resource('/user', UserController::class);
-Route::post('/user/reset-password/{user}', [UserController::class, 'resetPassword'])->name('user.reset-password');
+// Route::middleware('guest')->group(function () {});
 
 Route::resource('/pengajuan_surat', FormSuratContoller::class);
-
-
 Route::get('/mahasiswa', function () {
     return view('frontend.layouts.app');
 });

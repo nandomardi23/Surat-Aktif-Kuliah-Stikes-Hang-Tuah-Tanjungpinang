@@ -144,8 +144,6 @@
             </div>
         </div>
     </div>
-
-
 </section>
 @push('scripts')
 <script>
