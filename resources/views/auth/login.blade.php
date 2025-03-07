@@ -1,79 +1,139 @@
-@extends('frontend.layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Login Admin SHT</title>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+    <!-- Favicons -->
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address')
-                                }}</label>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
 
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <main>
+        <div class="container">
+            <section
+                class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-6">
+
+                            <!-- Logo -->
+                            <div class="text-center mb-4">
+                                <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="mb-3"
+                                    style="height: 80px;">
+                                <h3 class="text-dark">Sistem Administrasi SHT</h3>
                             </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password')
-                                }}</label>
+                            <div class="card shadow">
+                                <div class="card-body p-4">
+                                    <div class="text-center mb-4">
+                                        <h5 class="card-title">Login Admin</h5>
+                                        <p class="text-muted">Masukkan email dan password</p>
+                                    </div>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror" name="password"
-                                    required autocomplete="current-password">
+                                    <form method="POST" action="{{ route('login') }}">
+                                        @csrf
 
-                                @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
+                                        <!-- Email Input -->
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-envelope"></i>
+                                                </span>
+                                                <input type="email" name="email" id="email"
+                                                    class="form-control @error('email') is-invalid @enderror"
+                                                    placeholder="nama@contoh.com" required autofocus>
+                                                @error('email')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{
-                                        old('remember') ? 'checked' : '' }}>
+                                        <!-- Password Input -->
+                                        <div class="mb-4">
+                                            <label for="password" class="form-label">Password</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-lock"></i>
+                                                </span>
+                                                <input type="password" name="password" id="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    placeholder="••••••••" required>
+                                                <button type="button" class="btn btn-outline-secondary"
+                                                    onclick="togglePassword()">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                @error('password')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
+                                        <!-- Login Button -->
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary btn-block">
+                                                <i class="bi bi-box-arrow-in-right me-2"></i>
+                                                Masuk
+                                            </button>
+                                        </div>
+
+                                    </form>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                                @endif
+                            <!-- Footer -->
+                            <div class="text-center mt-4">
+                                <p class="text-muted small">
+                                    © {{ date('Y') }} STIKES Hang Tuah Tanjungpinang
+                                    <br>
+                                    <small>Powered by NiceAdmin</small>
+                                </p>
                             </div>
+
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </div>
-</div>
-@endsection
+    </main>
+
+    <!-- Vendor JS Files -->
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Password Toggle Script -->
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.querySelector('#password + button i');
+            
+            if(passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

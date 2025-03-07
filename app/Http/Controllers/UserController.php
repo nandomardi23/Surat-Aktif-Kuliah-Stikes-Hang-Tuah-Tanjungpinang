@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -58,8 +59,10 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(User $user)
-    {
-        //
+    { {
+            $user = Auth::user(); // Ambil data user yang login
+            return view('profile.edit', compact('user'));
+        }
     }
 
     /**
@@ -67,9 +70,37 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
-    }
+        $user = auth()->user();
 
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'current_password' => [
+                'nullable',
+                'required_with:password',
+                function ($attribute, $value, $fail) use ($user) {
+                    if (!Hash::check($value, $user->password)) {
+                        $fail('Password lama salah');
+                    }
+                }
+            ],
+            'password' => 'nullable|confirmed|min:8'
+        ]);
+
+        // Update hanya jika password diisi
+        $updateData = [
+            'name' => $validated['name'],
+            'email' => $validated['email']
+        ];
+
+        if ($request->filled('password')) {
+            $updateData['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($updateData);
+
+        return redirect()->back()->with('success', 'Profil diperbarui!');
+    }
     /**
      * Remove the specified resource from storage.
      */

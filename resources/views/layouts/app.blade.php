@@ -229,7 +229,8 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{route('profile.index')}}">
+                            <a class="dropdown-item d-flex align-items-center"
+                                href="{{route('user.edit',Auth::user())}}">
                                 <i class="bi bi-gear"></i>
                                 <span>Account Settings</span>
                             </a>
@@ -288,7 +289,6 @@
 
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
     <script src="{{asset('assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
     <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('assets/vendor/chart.js/chart.umd.js')}}"></script>
