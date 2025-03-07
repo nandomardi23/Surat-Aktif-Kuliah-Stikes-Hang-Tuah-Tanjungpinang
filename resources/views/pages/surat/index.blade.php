@@ -8,7 +8,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive mt-2">
-                <table id="table_surat_aktif" class="table table-bordered">
+                <table id="table_surat_aktif" class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -130,6 +130,7 @@
 </div>
 
 @push('scripts')
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> --}}
 <script>
     // crsf token
         const csrfToken = $('meta[name="csrf-token"]').attr('content');

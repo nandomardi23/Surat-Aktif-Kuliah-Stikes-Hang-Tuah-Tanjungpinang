@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Surat;
 use App\Models\Status;
 use App\Models\Pejabat;
-use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Yajra\DataTables\DataTables;
@@ -28,11 +27,31 @@ class SuratController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     return Blade::render('
-                    <div class="btn-group">
-                        <button class="btn btn-sm btn-warning edit-btn ms-1" data-id="' . $row->id . '">Edit</button>
-                        <button class="btn btn-sm btn-info detail-btn ms-1" data-id="' . $row->id . '">Detail</button>
-                        <a href="' . route('surat.export', $row->id) . '" class="btn btn-sm btn-success generate-btn ms-1" target="_blank">Generate</a>
-                        <button class="btn btn-sm btn-danger delete-btn ms-1" data-id="' . $row->id . '">Hapus</button>
+                    <div class="d-flex gap-1 justify-content-center">
+                        <button class="btn btn-sm btn-warning edit-btn" 
+                            data-id="' . $row->id . '" 
+                            title="Edit">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+        
+                        <button class="btn btn-sm btn-info text-white detail-btn" 
+                            data-id="' . $row->id . '" 
+                            title="Detail">
+                            <i class="bi bi-eye"></i>
+                        </button>
+        
+                        <a href="' . route('surat.export', $row->id) . '" 
+                            class="btn btn-sm btn-success" 
+                            title="Generate PDF"
+                            target="_blank">
+                            <i class="bi bi-download"></i>
+                        </a>
+        
+                        <button class="btn btn-sm btn-danger delete-btn" 
+                                data-id="' . $row->id . '" 
+                                title="Hapus">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     </div>', ['id' => $row->id]);
                 })
                 ->rawColumns(['action'])
