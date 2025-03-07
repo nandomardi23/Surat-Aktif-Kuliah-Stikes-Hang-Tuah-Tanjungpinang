@@ -61,7 +61,7 @@ class UserController extends Controller
     public function edit(User $user)
     { {
             $user = Auth::user(); // Ambil data user yang login
-            return view('profile.edit', compact('user'));
+            return view('pages.profile.index', compact('user'));
         }
     }
 

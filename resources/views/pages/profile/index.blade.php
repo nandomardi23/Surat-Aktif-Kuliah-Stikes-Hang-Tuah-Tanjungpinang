@@ -2,9 +2,18 @@
 
 @section('content')
 <section class="container">
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
+    <div class="card">
+        <div class="card-header ">
             <h5 class="mb-0">Profil {{ Auth::user()->name }}</h5>
+
+            <div class="my-3">
+                @session('success')
+                <div class="mt-3 alert alert-success alert-dismissible fade show" role="alert">
+                    {{ $value }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endsession
+            </div>
         </div>
 
         <div class="card-body">
@@ -13,7 +22,7 @@
                 @method('PUT')
 
                 <!-- Nama -->
-                <div class="mb-3">
+                <div class="mb-3 mt-3">
                     <label class="form-label">Nama Lengkap</label>
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                         value="{{ old('name', Auth::user()->name) }}">

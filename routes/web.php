@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/surat/{surat}/export', [ExportSuratController::class, 'exportSurat'])->name('surat.export');
     Route::resource('/user', UserController::class);
     Route::post('/user/reset-password/{user}', [UserController::class, 'resetPassword'])->name('user.reset-password');
-    Route::resource('/profile', ProfileController::class);
+    // Route::resource('/profile', ProfileController::class);
 });
 
 
