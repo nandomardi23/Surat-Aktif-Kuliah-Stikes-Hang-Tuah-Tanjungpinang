@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExportSuratController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdiController;
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/pejabat', PejabatController::class);
     Route::resource('/isi_surat', IsiSuratController::class);
     Route::resource('/surat', SuratController::class);
+    Route::get('/surat/{surat}/export', [ExportSuratController::class, 'exportSurat'])->name('surat.export');
     Route::resource('/user', UserController::class);
     Route::post('/user/reset-password/{user}', [UserController::class, 'resetPassword'])->name('user.reset-password');
     Route::resource('/profile', ProfileController::class);

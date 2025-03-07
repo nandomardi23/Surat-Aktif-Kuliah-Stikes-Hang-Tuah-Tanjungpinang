@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('nama_mahasiswa');
-            $table->date('tanggal_lahir');
             $table->integer('nim');
+            $table->date('tanggal_lahir');
             $table->string('tempat_lahir');
+            $table->string('jenis_kelamin');
             $table->text('alamat_mahasiswa');
             $table->string('nama_ayah');
             $table->string('pekerjaan_ayah');

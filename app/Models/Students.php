@@ -14,6 +14,7 @@ class Students extends Model
         'nama_mahasiswa',
         'tempat_lahir',
         'tanggal_lahir',
+        'jenis_kelamin',
         'alamat_mahasiswa',
         'nama_ayah',
         'pekerjaan_ayah',

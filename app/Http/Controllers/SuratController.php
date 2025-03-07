@@ -31,6 +31,7 @@ class SuratController extends Controller
                     <div class="btn-group">
                         <button class="btn btn-sm btn-warning edit-btn ms-1" data-id="' . $row->id . '">Edit</button>
                         <button class="btn btn-sm btn-info detail-btn ms-1" data-id="' . $row->id . '">Detail</button>
+                        <a href="' . route('surat.export', $row->id) . '" class="btn btn-sm btn-success generate-btn ms-1" target="_blank">Generate</a>
                         <button class="btn btn-sm btn-danger delete-btn ms-1" data-id="' . $row->id . '">Hapus</button>
                     </div>', ['id' => $row->id]);
                 })
