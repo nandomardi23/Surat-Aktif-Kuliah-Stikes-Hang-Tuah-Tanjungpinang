@@ -7,17 +7,17 @@
     <title>Login Admin SHT</title>
 
     <!-- Favicons -->
-    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ asset('backend/assets/img/favicon.png') }}" rel="icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/backend/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/backend/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/backend/assets/css/style.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -32,7 +32,7 @@
 
                             <!-- Logo -->
                             <div class="text-center mb-4">
-                                <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="mb-3"
+                                <img src="{{ asset('backend/assets/img/logo.png') }}" alt="Logo" class="mb-3"
                                     style="height: 80px;">
                                 <h3 class="text-dark">Sistem Administrasi SHT</h3>
                             </div>
@@ -116,7 +116,7 @@
     </main>
 
     <!-- Vendor JS Files -->
-    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Password Toggle Script -->
     <script>

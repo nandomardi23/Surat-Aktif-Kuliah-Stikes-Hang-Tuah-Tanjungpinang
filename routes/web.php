@@ -32,12 +32,14 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// Route::middleware('guest')->group(function () {});
-
-Route::resource('/pengajuan_surat', FormSuratContoller::class);
-Route::get('/mahasiswa', function () {
-    return view('frontend.layouts.app');
+Route::middleware('guest')->group(function () {
+    Route::resource('/pengajuan_surat', FormSuratContoller::class);
+    Route::get('/', function () {
+        return view('frontend.layouts.app');
+    });
 });
+
+
 
 Auth::routes();
 
