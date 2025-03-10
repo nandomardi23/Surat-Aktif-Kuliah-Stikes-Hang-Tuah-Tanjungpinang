@@ -8,8 +8,8 @@ use App\Http\Controllers\SuratController;
 use App\Http\Controllers\PejabatController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\FormSuratContoller;
+use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\IsiSuratController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\UserController;
 
@@ -28,15 +28,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/surat/{surat}/export', [ExportSuratController::class, 'exportSurat'])->name('surat.export');
     Route::resource('/user', UserController::class);
     Route::post('/user/reset-password/{user}', [UserController::class, 'resetPassword'])->name('user.reset-password');
-    // Route::resource('/profile', ProfileController::class);
 });
 
 
 Route::middleware('guest')->group(function () {
     Route::resource('/pengajuan_surat', FormSuratContoller::class);
-    Route::get('/', function () {
-        return view('frontend.layouts.app');
-    });
+    // Route::get('/', function () {
+    //     return view('frontend.layouts.app');
+    // });
+    Route::get('/', [HomeController::class, 'index'])->name('frontend.home.index');
 });
 
 

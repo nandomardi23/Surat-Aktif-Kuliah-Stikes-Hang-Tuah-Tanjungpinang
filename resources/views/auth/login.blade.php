@@ -32,9 +32,10 @@
 
                             <!-- Logo -->
                             <div class="text-center mb-4">
-                                <img src="{{ asset('backend/assets/img/logo.png') }}" alt="Logo" class="mb-3"
+                                <img src="{{ asset('assets/backend/assets/img/logo.png') }}" alt="Logo" class="mb-3"
                                     style="height: 80px;">
-                                <h3 class="text-dark">Sistem Administrasi SHT</h3>
+                                <h3 class="text-dark">Sistem Administrasi Akademik Kemahasiswaan Stikes Hang Tuah
+                                    Tanjnungpinang</h3>
                             </div>
 
                             <div class="card shadow">
@@ -104,7 +105,7 @@
                                 <p class="text-muted small">
                                     © {{ date('Y') }} STIKES Hang Tuah Tanjungpinang
                                     <br>
-                                    <small>Powered by NiceAdmin</small>
+                                    <small>By Fernando Mardi Nurzaman</small>
                                 </p>
                             </div>
 
