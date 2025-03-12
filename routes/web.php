@@ -8,7 +8,7 @@ use App\Http\Controllers\SuratController;
 use App\Http\Controllers\PejabatController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\FormSuratContoller;
-use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\frontend\LandingPageController;
 use App\Http\Controllers\IsiSuratController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\UserController;
@@ -33,10 +33,9 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('guest')->group(function () {
     Route::resource('/pengajuan_surat', FormSuratContoller::class);
-    // Route::get('/', function () {
-    //     return view('frontend.layouts.app');
-    // });
-    Route::get('/', [HomeController::class, 'index'])->name('frontend.home.index');
+    Route::get('/', [LandingPageController::class, 'index'])->name('frontend.index');
+    Route::post('/', [LandingPageController::class, 'store'])->name('frontend.store');
+    Route::get('/data', [LandingPageController::class, 'getData'])->name('surat.data');
 });
 
 
