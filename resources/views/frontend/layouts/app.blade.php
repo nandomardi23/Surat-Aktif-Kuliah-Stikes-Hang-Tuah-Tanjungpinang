@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Index - BizLand Bootstrap Template</title>
+    <title>Stikes Hang Tuah Tanjungpinang- BAAK</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -48,8 +48,8 @@
             <div class="container d-flex justify-content-center justify-content-md-between">
                 <div class="contact-info d-flex align-items-center">
                     <i class="bi bi-envelope d-flex align-items-center"><a
-                            href="mailto:contact@example.com">contact@example.com</a></i>
-                    <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
+                            href="https://stikesht-tpi.ac.id/">stikestpi@gmail.com</a></i>
+                    <i class="bi bi-phone d-flex align-items-center ms-4"><span>(0771) 4440071</span></i>
                 </div>
                 <div class="social-links d-none d-md-flex align-items-center">
                     <a href="{{route('login')}}" class="link-light">Login</a>

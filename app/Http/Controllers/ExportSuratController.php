@@ -72,6 +72,25 @@ class ExportSuratController extends Controller
         return 'Tanggal tidak valid'; // Fallback jika parsing gagal
     }
 
+
+    private function writeCenteredMultiLine($pdf, $text, $centerX, &$y, $maxWidth)
+    {
+        $lines = explode("\n", $text);
+
+        foreach ($lines as $line) {
+            // Hitung posisi X
+            $textWidth = $pdf->GetStringWidth(trim($line));
+            $x = $centerX - ($textWidth / 2);
+
+            // Tulis teks
+            $pdf->SetXY($x, $y);
+            $pdf->Cell(0, 6, trim($line));
+
+            // Update posisi Y
+            $y += 6;
+        }
+    }
+
     public function exportSurat(Surat $surat)
     {
         // Eager load relationships
@@ -93,7 +112,7 @@ class ExportSuratController extends Controller
 
         $pdf->useTemplate($templateId);
 
-        $pdf->SetFont("Arial", "", 12);
+        $pdf->SetFont("Arial", "", 11);
 
         $pdf->SetXY(115, 49.2); //3.2 inc x 1.1 inc
         $pdf->Cell(0, 10, $surat->nomor_surat, 0, 1);
@@ -139,31 +158,37 @@ class ExportSuratController extends Controller
         $pdf->SetXY(38, 180); //3.2 inc x 1.1 inc
         $pdf->MultiCell(0, 6, $deskripsi, 0, 1);
 
+        // =============== BAGIAN TANDA TANGAN ===============
+        $startY = 210; // Posisi awal
+        $lineHeight = 6;
+        $marginX = 80; // Margin kiri-kanan
 
-        $pdf->SetXY(126, 210); // Posisi di kanan
-        $pdf->Cell(0, 10, "Tanjungpinang, Maret 2025", 0, 1);
+        // Posisi untuk konten tengah
+        $contentWidth = 150; // Lebar area konten
+        $centerX = $marginX + ($contentWidth / 2);
 
-        // Nama institusi
-        $pdf->SetXY(121, 215); // Turun 20mm dari tanggal
-        $pdf->Cell(0, 10, "Stikes Hang Tuah Tanjungpinang", 0, 1);
+        // Tanggal
+        $tanggalText = "Tanjungpinang, " . $this->formatTanggal(date('Y-m-d'));
+        $this->writeCenteredMultiLine($pdf, $tanggalText, $centerX, $startY, $contentWidth);
+        // $startY += 10;
 
-        // Jabatan
-        $pdf->SetXY(147, 220); // Turun 20mm dari institusi
-        $pdf->Cell(0, 10, $surat->pejabat->jabatan, 0, 1);
+        // Institusi + Jabatan
+        $institusiText = "Stikes Hang Tuah Tanjungpinang\n" . $surat->pejabat->jabatan;
+        $this->writeCenteredMultiLine($pdf, $institusiText, $centerX, $startY, $contentWidth);
+        $startY += 20;
 
-        // Garis tanda tangan (panjang 50mm)
-        // $pdf->Line(120, 230, 170, 230); // X1=120, Y1=200, X2=170, Y2=200
+        // Garis Tanda Tangan
+        // $lineLength = 80;
+        // $pdf->Line($centerX - ($lineLength / 2), $startY, $centerX + ($lineLength / 2), $startY);
+        // $startY += 10;
 
-        // Nama dan gelar
-        $pdf->SetXY(117, 250); // 5mm di bawah garis
-        $pdf->Cell(0, 10, $surat->pejabat->nama_pejabat, 0, 1);
+        // Nama Pejabat
+        $this->writeCenteredMultiLine($pdf, $surat->pejabat->nama_pejabat, $centerX, $startY, $contentWidth);
+        // $startY += 6;
 
         // NIK
-        $pdf->SetXY(143, 255); // Turun 10mm dari nama
-        $pdf->Cell(0, 10, "NIK." . $surat->pejabat->nik, 0, 1);
+        $this->writeCenteredMultiLine($pdf, "NIK: " . $surat->pejabat->nik, $centerX, $startY, $contentWidth);
 
-
-        //see the results
         $pdf->Output();
     }
 }
