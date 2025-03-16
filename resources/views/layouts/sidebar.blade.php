@@ -29,11 +29,6 @@
                         <i class="bi bi-circle"></i><span>Pejabat Stikes</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{route('isi_surat.index')}}">
-                        <i class="bi bi-circle"></i><span>Badan Surat</span>
-                    </a>
-                </li>
             </ul>
         </li><!-- End Components Nav -->
 

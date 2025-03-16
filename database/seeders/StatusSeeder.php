@@ -14,10 +14,16 @@ class StatusSeeder extends Seeder
     public function run(): void
     {
         Status::create([
+            'nama_status' => 'Baru'
+        ]);
+        Status::create([
             'nama_status' => 'Proses'
         ]);
         Status::create([
             'nama_status' => 'Selesai'
+        ]);
+        Status::create([
+            'nama_status' => 'Ditolak'
         ]);
     }
 }
