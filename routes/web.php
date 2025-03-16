@@ -23,7 +23,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('/programstudi', ProdiController::class);
     Route::resource('/setting', SettingController::class);
     Route::resource('/pejabat', PejabatController::class);
-    Route::resource('/isi_surat', IsiSuratController::class);
     Route::resource('/surat', SuratController::class);
     Route::get('/surat/{surat}/export', [ExportSuratController::class, 'exportSurat'])->name('surat.export');
     Route::resource('/user', UserController::class);
@@ -32,7 +31,6 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('guest')->group(function () {
-    Route::resource('/pengajuan_surat', FormSuratContoller::class);
     Route::get('/', [LandingPageController::class, 'index'])->name('frontend.index');
     Route::post('/', [LandingPageController::class, 'store'])->name('frontend.store');
     Route::get('/data', [LandingPageController::class, 'getData'])->name('surat.data');

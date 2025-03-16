@@ -10,7 +10,7 @@
         <nav id="navmenu" class="navmenu">
             <ul>
                 <li><a href="#hero">Home</a></li>
-                <li><a href="#about">Tata Cara</a></li>
+                <li><a href="#alur_sistem">Tata Cara</a></li>
                 <li><a href="#form_surat">Pengajuan Surat</a></li>
                 <li><a href="#table_surat">List Surat</a></li>
             </ul>
