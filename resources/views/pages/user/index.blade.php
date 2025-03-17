@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('content')
+<div class="pagetitle">
+    <h1>Users</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Users</li>
+        </ol>
+    </nav>
+</div>
 <section>
     <div class="card">
         <div class=" card-header">

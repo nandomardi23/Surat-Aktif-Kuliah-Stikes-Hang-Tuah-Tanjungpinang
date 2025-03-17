@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExportSuratController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +17,8 @@ use App\Http\Controllers\UserController;
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages.dashboard.index');
-    });
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dataDashboard', [DashboardController::class, 'getSurat'])->name('dashboard.data');
     Route::resource('/semester', SemesterController::class);
     Route::resource('/programstudi', ProdiController::class);
     Route::resource('/setting', SettingController::class);
