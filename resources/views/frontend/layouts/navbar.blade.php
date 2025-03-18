@@ -12,7 +12,7 @@
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#alur_sistem">Alur Surat</a></li>
                 <li><a href="#form_surat">Pengajuan Surat</a></li>
-                <li><a href="#table_surat">List Surat</a></li>
+                <li><a href="#table-surat">List Surat</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
