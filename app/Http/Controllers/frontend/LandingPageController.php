@@ -90,6 +90,6 @@ class LandingPageController extends Controller
             'keterangan' => $request->keterangan
         ]);
 
-        return redirect()->route('pengajuan_surat.index');
+        return redirect()->route('frontend.index');
     }
 }
