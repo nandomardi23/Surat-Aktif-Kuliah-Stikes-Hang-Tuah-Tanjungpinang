@@ -125,7 +125,7 @@
 
                 <div class="col-lg-4 col-md-12">
                     <h4>Follow Us</h4>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+                    <p>Follow Sosial Media, Supayah Kalian Tidak Ketinggalan Info Menarik Dari Kami</p>
                     <div class="social-links d-flex">
                         {{-- <a href=""><i class="bi bi-twitter-x"></i></a> --}}
                         <a href="https://www.youtube.com/channel/UCdCbAjqdq8KM3NRPPDgcwtQ"><i
