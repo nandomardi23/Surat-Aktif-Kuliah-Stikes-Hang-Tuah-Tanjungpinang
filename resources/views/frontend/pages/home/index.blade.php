@@ -85,7 +85,7 @@
                                 class="form-control @error('jenis_kelamin') is-invalid @enderror">
                                 <option value="">--- Pilih Jenis Kelamin ---</option>
                                 <option value="Laki-laki">Laki-laki</option>
-                                <option value="Peremepuan">Peremepuan</option>
+                                <option value="Perempuan">Perempuan</option>
                                 @error('jenis_kelamin')
                                 <div class="invalid-feedback">
                                     {{ $message }}

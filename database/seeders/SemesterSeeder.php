@@ -35,6 +35,9 @@ class SemesterSeeder extends Seeder
             'semesterRomawi' => 'VII'
         ]);
         Semester::create([
+            'semesterRomawi' => 'VIII'
+        ]);
+        Semester::create([
             'semesterRomawi' => 'IX'
         ]);
         Semester::create([
