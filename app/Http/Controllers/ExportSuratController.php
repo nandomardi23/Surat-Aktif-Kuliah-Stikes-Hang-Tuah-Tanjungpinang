@@ -8,44 +8,6 @@ use setasign\Fpdi\Fpdi;
 class ExportSuratController extends Controller
 {
 
-    private function justifyText($text, $width, $pdf)
-    {
-        $words = explode(' ', $text);
-        $currentLine = '';
-        $lines = [];
-
-        foreach ($words as $word) {
-            $testLine = $currentLine . ' ' . $word;
-            $testWidth = $pdf->GetStringWidth($testLine);
-            if ($testWidth > $width) {
-                $lines[] = trim($currentLine);
-                $currentLine = $word;
-            } else {
-                $currentLine = $testLine;
-            }
-        }
-        $lines[] = trim($currentLine);
-
-        // Proses penambahan spasi (diubah)
-        foreach ($lines as $key => $line) {
-            if ($key === count($lines) - 1) break;
-            $words = explode(' ', $line);
-            $totalSpaces = count($words) - 1;
-            if ($totalSpaces === 0) continue;
-
-            $totalWidth = $pdf->GetStringWidth($line);
-            $spaceWidth = ($width - $totalWidth) / $totalSpaces;
-
-            // Tambahkan spasi fisik
-            $spaces = str_repeat(' ', ceil($spaceWidth / $pdf->GetStringWidth(' ')));
-            $newLine = implode($spaces, $words);
-            $lines[$key] = $newLine;
-        }
-
-        return implode("\n", $lines);
-    }
-
-
     private function formatTanggal($dateString)
     {
         $bulanIndo = [
@@ -126,16 +88,14 @@ class ExportSuratController extends Controller
 
 
         $tglLahir = $this->formatTanggal($surat->student->tanggal_lahir);
-        // $ttl =  $surat->student->tempat_lahir . ',' . $tglLahir;
         $pdf->SetXY(95, 78.5); //3.2 inc x 1.1 inc
-        $pdf->MultiCell(0, 10, $surat->student->tempat_lahir . ',' . $tglLahir, 0, 1);
+        $pdf->MultiCell(0, 10, $surat->student->tempat_lahir . ', ' . $tglLahir, 0, 1);
 
         $pdf->SetXY(95, 86); //3.2 inc x 1.1 inc
         $pdf->Cell(0, 10, $surat->student->jenis_kelamin, 0, 1);
 
-        $alamatMahasiswa = $this->justifyText($surat->student->alamat_mahasiswa, 100, $pdf);
         $pdf->SetXY(95, 95); //3.2 inc x 1.1 inc
-        $pdf->MultiCell(100, 6, $alamatMahasiswa, 0, 'l');
+        $pdf->MultiCell(100, 6, $surat->student->alamat_mahasiswa, 0, 'J');
 
         $pdf->SetXY(95, 122); //3.2 inc x 1.1 inc
         $pdf->Cell(0, 10, $surat->student->nama_ayah, 0, 1);
@@ -150,9 +110,8 @@ class ExportSuratController extends Controller
         $pdf->SetXY(95, 144); //3.2 inc x 1.1 inc
         $pdf->Cell(0, 10, $surat->student->pekerjaan_ibu, 0, 1);
 
-        $alamatOrangTua = $this->justifyText($surat->student->alamat_orang_tua, 100, $pdf);
         $pdf->SetXY(95, 153); //3.2 inc x 1.1 inc
-        $pdf->MultiCell(100, 6, $alamatOrangTua, 0, 'L');
+        $pdf->MultiCell(100, 6, $surat->student->alamat_orang_tua, 0, 'J');
 
         $deskripsi = "      Adalah benar yang bersangkutan mahasiswa semester " . $surat->student->semester->semesterRomawi . " Program Studi " . $surat->student->prodi->namaProdi . " Stikes Hang Tuah Tanjungpinang.";
         $pdf->SetXY(38, 180); //3.2 inc x 1.1 inc
@@ -176,11 +135,6 @@ class ExportSuratController extends Controller
         $institusiText = "Stikes Hang Tuah Tanjungpinang\n" . $surat->pejabat->jabatan;
         $this->writeCenteredMultiLine($pdf, $institusiText, $centerX, $startY, $contentWidth);
         $startY += 20;
-
-        // Garis Tanda Tangan
-        // $lineLength = 80;
-        // $pdf->Line($centerX - ($lineLength / 2), $startY, $centerX + ($lineLength / 2), $startY);
-        // $startY += 10;
 
         // Nama Pejabat
         $this->writeCenteredMultiLine($pdf, $surat->pejabat->nama_pejabat, $centerX, $startY, $contentWidth);
